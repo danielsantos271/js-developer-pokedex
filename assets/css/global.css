@@ -1,24 +1,42 @@
+:root {
+    --background-color: #f6f8fc;
+    --content-background: #fff;
+    --primary-font: 'Roboto', sans-serif;
+}
+
+/* Reset CSS */
 * {
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--primary-font);
     box-sizing: border-box;
 }
 
+/* Body Styles */
 body {
-    background-color: #f6f8fc;
+    background-color: var(--background-color);
+    margin: 0; /* Remover margens padrão do body */
 }
 
+/* Content Styles */
 .content {
     width: 100vw;
     height: 100vh;
     padding: 1rem;
-    background-color: #fff;
+    background-color: var(--content-background);
 }
 
 @media screen and (min-width: 992px) {
+    /* Responsive Styles for Large Screens */
     .content {
         max-width: 992px;
-        height: auto;
+        height: auto; /* Pode ser removido se não necessário */
         margin: 1rem auto;
         border-radius: 1rem;
     }
 }
+
+/* Additional Styling for Improved Readability */
+h1 {
+    color: #333; /* Especificar uma cor para o cabeçalho */
+}
+
+/* Add more styles as needed for your specific elements */
