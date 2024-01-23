@@ -1,8 +1,7 @@
-const pokemonList = document.getElementById('pokemonList')
-const loadMoreButton = document.getElementById('loadMoreButton')
-
-const maxRecords = 151
-const limit = 10
+const pokemonList = document.getElementById('pokemonList');
+const loadMoreButton = document.getElementById('loadMoreButton');
+const maxRecords = 151;
+const limit = 10;
 let offset = 0;
 
 function convertPokemonToLi(pokemon) {
@@ -16,32 +15,35 @@ function convertPokemonToLi(pokemon) {
                     ${pokemon.types.map((type) => `<li class="type ${type}">${type}</li>`).join('')}
                 </ol>
 
-                <img src="${pokemon.photo}"
-                     alt="${pokemon.name}">
+                <img src="${pokemon.photo}" alt="${pokemon.name}">
             </div>
         </li>
-    `
+    `;
 }
 
-function loadPokemonItens(offset, limit) {
+function renderPokemonList(pokemons) {
+    const newHtml = pokemons.map(convertPokemonToLi).join('');
+    pokemonList.innerHTML += newHtml;
+}
+
+function loadPokemonItems(offset, limit) {
     pokeApi.getPokemons(offset, limit).then((pokemons = []) => {
-        const newHtml = pokemons.map(convertPokemonToLi).join('')
-        pokemonList.innerHTML += newHtml
-    })
+        renderPokemonList(pokemons);
+
+        if (offset + limit >= maxRecords) {
+            disableLoadMoreButton();
+        }
+    });
 }
 
-loadPokemonItens(offset, limit)
+function disableLoadMoreButton() {
+    loadMoreButton.disabled = true;
+    loadMoreButton.textContent = 'No more Pokémon';
+}
+
+loadPokemonItems(offset, limit);
 
 loadMoreButton.addEventListener('click', () => {
-    offset += limit
-    const qtdRecordsWithNexPage = offset + limit
-
-    if (qtdRecordsWithNexPage >= maxRecords) {
-        const newLimit = maxRecords - offset
-        loadPokemonItens(offset, newLimit)
-
-        loadMoreButton.parentElement.removeChild(loadMoreButton)
-    } else {
-        loadPokemonItens(offset, limit)
-    }
-})
+    offset += limit;
+    loadPokemonItems(offset, limit);
+});
